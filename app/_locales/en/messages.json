@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "healthscore",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "Include health scores on Caviar restaurant pages.",
+    "description": "The description of the application"
+  }
+}
