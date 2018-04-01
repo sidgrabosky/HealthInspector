@@ -1,0 +1,68 @@
+.healthBadge {
+	display: block;
+	text-align: center;
+	position: absolute;
+	right: 10%;
+	top: 50%;
+	transform: translateY(-50%);
+	border: solid 1px #000;
+	width: 130px;
+	box-sizing: border-box;
+}
+
+.healthBadge > .label {
+	margin-bottom: 1em;
+	padding: 1em;
+	background: white;
+	color: black;
+}
+
+.healthBadge > .score {
+	font-size: 3em;
+	margin: .5em;
+}
+
+.healthBadge > .riskCategoryLabel {
+	display: block;
+	font-weight: bold;
+	padding: 1em;
+}
+
+.healthBadge > .score-description {
+	margin: 1em 0;
+}
+
+.healthBadge > .deets-button {
+	background-color: #333;
+}
+
+.healthBadge > .deets-button a {
+	display: block;
+	padding: .5em;
+	color: #EEE;
+}
+
+.hbleft {
+	text-align: left;
+}
+
+.red {
+	background-color: red;
+}
+
+.orange {
+	background-color: orange;
+}
+
+.yellow {
+	background-color: #d9d919;
+	color: #000;
+}
+
+.green {
+	background-color: green;
+}
+
+.gray {
+	background-color: #333;
+}

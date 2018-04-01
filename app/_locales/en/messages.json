@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "healthscore",
+    "message": "Health Inspector",
     "description": "The name of the application"
   },
   "appDescription": {
-    "message": "Include health scores on Caviar restaurant pages.",
+    "message": "Puts health score badges onto delivery service websites for San Francisco restaurants.",
     "description": "The description of the application"
   }
 }

@@ -1,19 +1,20 @@
 {
-  "name": "Health Score",
-  "description" : "Base Level Extension",
+  "name": "Health Inspector",
+  "description" : "Puts health score badges onto delivery service websites for San Francisco restaurants.",
   "version": "1.0",
   "browser_action": {
     "default_popup": "healthscore.html",
-    "default_icon": "hello_extensions.png"
+    "default_icon": "images/health-inspector-256x256.png"
   },
   "manifest_version": 2,
-  "commands": {
-    "_execute_browser_action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+F",
-        "mac": "MacCtrl+Shift+F"
-      },
-      "description": "Does Healthscore Stuff"
+  "permissions": [
+    "https://data.sfgov.org/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.trycaviar.com/*"],
+      "css": ["contentScriptStyles.css", "modal.css"],
+      "js": ["scripts/contentScript.js"]
     }
-  }
+  ]
 }
