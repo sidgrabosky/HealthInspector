@@ -10,6 +10,7 @@ A Chrome Extension that puts health scores and health inspection info for restau
   * The numeric scores and the category labels (Good, Adequate, Needs Improvement, and Poor) come from the San Francisco Department of Public Health. A page with a descriptions of the terms is [available here](https://www.sfdph.org/dph/EH/Food/Score/default.asp).
 * What services/websites are currently supported?
   * Caviar
+  * Postmates
 
 ## Future Work:
 * Adding additional delivery service websites.
