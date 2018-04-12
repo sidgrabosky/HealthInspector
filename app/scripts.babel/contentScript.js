@@ -4,8 +4,10 @@ var moment = require('moment')
 var soda = require('soda-js')
 
 const loadService = URLOrigin => {
-  if (URLOrigin.match(/^http(s?):\/\/www.trycaviar.com$/)) {
+  if (URLOrigin.match(/^http(s?):\/\/(?:www\.)?trycaviar.com$/)) {
     return new CaviarService()
+  } else if (URLOrigin.match(/^http(s?):\/\/(?:www\.)?postmates.com$/)) {
+    return new PostmatesService()
   }
   return new UnsupportedService()
 }
@@ -86,12 +88,53 @@ class CaviarService extends DeliveryService {
     let metaTag = document.querySelector('meta[property=\'og:type\']')
     return (metaTag && (metaTag.getAttribute('content') === 'restaurant.restaurant'))
   }
+
   getRestaurantName () {
     // Caviar has a "title" meta tag that contains the restaurant name.
     return document.querySelector('meta[property=\'og:title\']').getAttribute('content')
   }
+
   getContainerElement () {
     return document.getElementsByClassName('merchant_info')[0]
+  }
+}
+
+class PostmatesService extends DeliveryService {
+  isRestaurantPage () {
+    // May be prone to breakage with Postmates changes: restaurant deliveries on Postmates have a meta tag with a certain pattern for restaurants.
+    let meta = document.querySelector('meta[property=\'og:description\']')
+    if (!meta) {
+      return false
+    }
+    let matches = meta.content.match(/Order Delivery from (.*?) on (.*), San Francisco, CA./i)
+    if (matches) {
+      this.restaurantName = matches[1]
+      this.address = matches[2]
+      return true
+    }
+  }
+
+  getRestaurantName () {
+    return this.restaurantName
+  }
+
+  getAddress () {
+    return this.address
+  }
+
+  getContainerElement () {
+    // Postmates does not label their elements with intelligible class/ID names, so we have to use content/structure.
+    // Find an h1 containing the restaurant name
+    let headers = document.getElementsByTagName('h1')
+
+    // At the time of making this script, there should only be 1 h1 in this set (the one we're looking for)
+    for (var i = 0; i < headers.length; i++) {
+      if (this.getRestaurantName() === headers[i].textContent) {
+        // The container element is 3 levels up the hierarchy
+        let containerEl = headers[i].parentElement.parentElement.parentElement
+        return containerEl
+      }
+    }
   }
 }
 
