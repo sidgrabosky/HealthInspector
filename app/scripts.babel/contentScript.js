@@ -46,6 +46,18 @@ const ScoreToOperatingConditionCategoryName = (score) => {
   }
 }
 
+const retry = (callback, intervalMS = 100, maxAttempts = 100) => {
+  if (callback()) {
+    return callback
+  }
+  if (maxAttempts < 1) {
+    return false
+  }
+  setTimeout(function () {
+    retry(callback, intervalMS, maxAttempts - 1)
+  }, intervalMS)
+}
+
 class DeliveryService {
   isRestaurantPage () { return false }
   getRestaurantName () { return '' }
@@ -66,7 +78,14 @@ class DeliveryService {
   }
 
   processError (error) {
-    this.getContainerElement().insertAdjacentHTML('beforeend', '<div class="healthBadge">Error loading health data.</div>')
+    retry(() => {
+      let containerElement = service.getContainerElement()
+      if (!containerElement) {
+        return false
+      }
+      containerElement.insertAdjacentHTML('beforeend', '<div class="healthBadge">Error loading health data.</div>')
+      return true
+    })
   }
 
   execute () {
@@ -158,7 +177,14 @@ function paintBadgeFromResults (service, results) {
     </div>`
   }
 
-  service.getContainerElement().insertAdjacentHTML('beforeend', badge)
+  retry(() => {
+    let containerElement = service.getContainerElement()
+    if (!containerElement) {
+      return false
+    }
+    containerElement.insertAdjacentHTML('beforeend', badge)
+    return true
+  })
 }
 
 function makeInspectionTableFromResults (results) {
